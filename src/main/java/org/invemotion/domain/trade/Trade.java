@@ -68,7 +68,7 @@ public class Trade {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "total_amount", nullable = false)
-    private Integer totalAmount;
+    @Column(name = "total_amount", precision = 20, scale = 4, nullable = false)
+    private BigDecimal totalAmount;
 }
 
