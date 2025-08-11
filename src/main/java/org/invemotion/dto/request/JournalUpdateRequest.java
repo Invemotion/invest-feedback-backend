@@ -8,10 +8,8 @@ import org.invemotion.domain.journal.enums.Emotion;
 public record JournalUpdateRequest(
         @NotBlank
         String reason,
-
         @NotNull
         Emotion emotion,
-
         @NotNull
         BehaviorType behavior
 ) {

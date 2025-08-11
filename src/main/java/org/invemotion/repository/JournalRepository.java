@@ -23,6 +23,4 @@ public interface JournalRepository extends JpaRepository<Journal, Long> {
         Long getTradeId();
         Long getId();
     }
-
-    Optional<Journal> findByIdAndUser_UserId(Long id, Long userId);
 }

@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.invemotion.domain.journal.Journal;
 import org.invemotion.dto.request.JournalCreateRequest;
 import org.invemotion.dto.request.JournalUpdateRequest;
-import org.invemotion.dto.response.JournalCreateResponse;
-import org.invemotion.dto.response.JournalListData;
 import org.invemotion.dto.response.JournalResponse;
-import org.invemotion.dto.response.TradeListData;
 import org.invemotion.global.dto.SuccessResponse;
 import org.invemotion.global.dto.enums.SuccessCode;
 import org.invemotion.service.JournalCommandService;
@@ -31,10 +28,10 @@ public class JournalController {
             @Valid @RequestBody JournalCreateRequest request
     ) {
         Journal journal = journalCommandService.create(userId, tradeId, request);
-        JournalResponse body = journalQueryService.getById(userId, journal.getId());
+        JournalResponse body = journalQueryService.getById(journal.getId());
         return ResponseEntity
                 .status(SuccessCode.OK.getHttpStatus())
-                .body(SuccessResponse.of(SuccessCode.OK, body));
+                .body(SuccessResponse.of(SuccessCode.CREATED, body));
     }
 
     @GetMapping("journals/{id}")
@@ -42,7 +39,7 @@ public class JournalController {
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id
     ){
-        JournalResponse journal = journalQueryService.getById(userId, id);
+        JournalResponse journal = journalQueryService.getById(id);
 
         return ResponseEntity
                 .status(SuccessCode.OK.getHttpStatus())
@@ -56,7 +53,7 @@ public class JournalController {
             @Valid @RequestBody JournalUpdateRequest request
     ) {
         journalCommandService.update(userId, id, request);
-        JournalResponse body = journalQueryService.getById(userId, id);
+        JournalResponse body = journalQueryService.getById(id);
         return ResponseEntity
                 .status(SuccessCode.OK.getHttpStatus())
                 .body(SuccessResponse.of(SuccessCode.OK, body));

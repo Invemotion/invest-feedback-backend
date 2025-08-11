@@ -1,6 +1,8 @@
 package org.invemotion.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.invemotion.domain.trade.Trade;
+import org.invemotion.dto.response.JournalResponse;
 import org.invemotion.dto.response.TradeListData;
 import org.invemotion.dto.response.TradeResponse;
 import org.invemotion.global.dto.PageResponse;
