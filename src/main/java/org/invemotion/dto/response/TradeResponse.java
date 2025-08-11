@@ -23,6 +23,8 @@ public record TradeResponse(
         Integer quantity,
         BigDecimal totalAmount,
         String resultType,
-        BigDecimal exchangeRate
+        BigDecimal exchangeRate,
+        boolean hasJournal,
+        Long journalId
 ) {
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import jakarta.persistence.OptimisticLockException;
 import org.invemotion.global.dto.ErrorResponse;
 import org.invemotion.global.dto.enums.ErrorCode;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -72,5 +73,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(ErrorCode.INVALID_REQUEST));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrity(DataIntegrityViolationException e) {
+        return ResponseEntity
+                .status(ErrorCode.JOURNAL_ALREADY_EXISTS.getHttpStatus())
+                .body(ErrorResponse.of(ErrorCode.JOURNAL_ALREADY_EXISTS));
     }
 }
