@@ -11,8 +11,15 @@ public enum ErrorCode {
 
     // Journal
     JOURNAL_ALREADY_EXISTS(HttpStatus.CONFLICT, 40901, "해당 거래의 매매 일지가 이미 존재합니다."),
-    JOURNAL_NOT_FOUND_OR_NOT_OWNED (HttpStatus.NOT_FOUND, 40902, "요청하신 거래를 찾을 수 없거나 권한이 없습니다."),
+    JOURNAL_NOT_FOUND_OR_NOT_OWNED (HttpStatus.NOT_FOUND, 40902, "요청하신 일지를 찾을 수 없거나 권한이 없습니다."),
     JOURNAL_NOT_MODIFIED(HttpStatus.BAD_REQUEST, 40903, "변경사항이 없습니다."),
+
+
+    // Report
+    REPORT_ALREADY_EXISTS(HttpStatus.CONFLICT, 40701, "해당 기간의 리포트가 이미 존재합니다."),
+    REPORT_NOT_FOUND_OR_NOT_OWNED(HttpStatus.NOT_FOUND, 40702, "요청하신 리포트를 찾을 수 없거나 권한이 없습니다."),
+    REPORT_NOT_MODIFIED(HttpStatus.BAD_REQUEST, 40703, "변경사항이 없습니다."),
+
 
     // 공용
     INVALID_REQUEST (HttpStatus.BAD_REQUEST, 40000, "요청 필드가 잘못되었습니다."),

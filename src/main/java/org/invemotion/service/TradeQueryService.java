@@ -10,7 +10,7 @@ import org.invemotion.global.dto.PageResponse;
 import org.invemotion.repository.TradeRepository;
 import org.invemotion.repository.JournalRepository;
 import org.invemotion.repository.JournalRepository.TradeJournalPair;
-import org.invemotion.service.validator.TradeQueryValidator;
+import org.invemotion.service.validator.QueryValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class TradeQueryService {
 
     private final TradeRepository tradeRepository;
     private final JournalRepository journalRepository;
-    private final TradeQueryValidator validator;
+    private final QueryValidator validator;
 
     public PageResponse<TradeResponse> getTradePage(
             Long userId,
@@ -42,14 +42,14 @@ public class TradeQueryService {
         List<Trade> trades = p.getContent();
         List<Long> tradeIds = trades.stream().map(Trade::getId).toList();
 
-        Map<Long, Long> tradeIdToJournalId = tradeIds.isEmpty()
+        Map<Long, Long> idToJournalId = tradeIds.isEmpty()
                 ? Collections.emptyMap()
                 : journalRepository.findJournalIdsByTradeIds(tradeIds).stream()
                 .collect(Collectors.toMap(TradeJournalPair::getTradeId, TradeJournalPair::getId));
 
         List<TradeResponse> items = trades.stream()
                 .map(t -> {
-                    Long journalId = tradeIdToJournalId.get(t.getId());
+                    Long journalId = idToJournalId.get(t.getId());
                     boolean hasJournal = (journalId != null);
                     return toDto(t, hasJournal, journalId);
                 })

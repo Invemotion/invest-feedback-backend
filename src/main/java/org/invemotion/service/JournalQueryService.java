@@ -18,11 +18,8 @@ public class JournalQueryService {
 
     private final JournalRepository journalRepository;
 
-    public JournalResponse getById(
-            Long userId,
-            Long id
-    ){
-        var j = journalRepository.findByIdAndUser_UserId(id, userId)
+    public JournalResponse getById(Long id){
+        var j = journalRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.JOURNAL_NOT_FOUND_OR_NOT_OWNED));
         return new JournalResponse(
                 j.getId(),
@@ -30,7 +27,9 @@ public class JournalQueryService {
                 j.getUser().getUserId(),
                 j.getReason(),
                 j.getEmotion(),
-                j.getBehavior()
+                j.getBehavior(),
+                j.getCreatedAt(),
+                j.getUpdatedAt()
         );
     }
 }

@@ -1,14 +1,15 @@
-// src/main/java/org/invemotion/service/validator/TradeQueryValidator.java
+// src/main/java/org/invemotion/service/validator/QueryValidator.java
 package org.invemotion.service.validator;
 
 import org.invemotion.global.dto.enums.ErrorCode;
 import org.invemotion.global.exception.CustomException;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
-public class TradeQueryValidator {
+public class QueryValidator {
 
     public void validateUser(Long userId) {
         if (userId == null) {
@@ -17,6 +18,15 @@ public class TradeQueryValidator {
     }
 
     public void validatePeriod(LocalDateTime start, LocalDateTime end) {
+        if (start == null || end == null) {
+            throw new CustomException(ErrorCode.MISSING_PERIOD);
+        }
+        if (!start.isBefore(end)) {
+            throw new CustomException(ErrorCode.INVALID_PERIOD_RANGE);
+        }
+    }
+
+    public void validatePeriod(LocalDate start, LocalDate end) {
         if (start == null || end == null) {
             throw new CustomException(ErrorCode.MISSING_PERIOD);
         }
