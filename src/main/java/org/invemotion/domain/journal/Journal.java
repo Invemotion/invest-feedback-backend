@@ -3,11 +3,14 @@ package org.invemotion.domain.journal;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.invemotion.domain.journal.enums.*;
 import org.invemotion.domain.trade.Trade;
 import org.invemotion.domain.user.User;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -44,5 +47,37 @@ public class Journal {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
+
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        if (reason != null) {
+            reason = reason.trim();
+        }
+    }
+
+    public boolean update(String reason, Emotion emotion, BehaviorType behavior) {
+        boolean changed = false;
+
+        if (!this.reason.equals(reason)) {
+            this.reason = reason;
+            changed = true;
+        }
+        if (this.emotion != emotion) {
+            this.emotion = emotion;
+            changed = true;
+        }
+        if (this.behavior != behavior) {
+            this.behavior = behavior;
+            changed = true;
+        }
+
+        return changed;
+    }
 }
 
